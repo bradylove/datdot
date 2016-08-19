@@ -1,0 +1,9 @@
+package: github.com/bradylove/dotter
+import:
+- package: github.com/spf13/cobra
+  subpackages:
+  - cobra
+- package: github.com/onsi/ginkgo
+  subpackages:
+  - ginkgo
+- package: github.com/onsi/gomega
