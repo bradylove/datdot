@@ -2,8 +2,9 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
 	"os"
+
+	"github.com/spf13/cobra"
 )
 
 // addCmd represents the add command
@@ -21,7 +22,16 @@ push changes to your dot files to the remote repository`,
 			os.Exit(1)
 		}
 
-		fmt.Println("add called")
+		// TODO: Ensure dotter has been initialized
+
+		manager := newFileManager()
+
+		if err := manager.Add(args[0]); err != nil {
+			fmt.Printf("Failed to add file to your dotfiles: %s\n", err)
+			os.Exit(1)
+		}
+
+		fmt.Println("Done.")
 	},
 }
 
