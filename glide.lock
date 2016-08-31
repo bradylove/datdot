@@ -1,5 +1,5 @@
 hash: 4b72789f1c5775934d494cdd074d200fa6c386b442f44b1ed411042de0a26747
-updated: 2016-08-19T20:31:38.322726747-06:00
+updated: 2016-08-30T22:53:55.146451588-06:00
 imports:
 - name: github.com/BurntSushi/toml
   version: 99064174e013895bbd9b025c31100bd1d9b590ca
@@ -28,8 +28,31 @@ imports:
   version: 43e2af1f01ace55adbb6d7d0f30416476db1baae
   subpackages:
   - ginkgo
+  - config
+  - ginkgo/convert
+  - ginkgo/interrupthandler
+  - ginkgo/nodot
+  - ginkgo/testrunner
+  - ginkgo/testsuite
+  - ginkgo/watch
+  - types
+  - internal/remote
+  - reporters/stenographer
+  - reporters
 - name: github.com/onsi/gomega
   version: c90bd38f8da6e92f8b114953db2f0ad7361fb4b4
+  subpackages:
+  - internal/assertion
+  - internal/asyncassertion
+  - internal/testingtsupport
+  - matchers
+  - types
+  - internal/oraclematcher
+  - format
+  - matchers/support/goraph/bipartitegraph
+  - matchers/support/goraph/edge
+  - matchers/support/goraph/node
+  - matchers/support/goraph/util
 - name: github.com/pkg/errors
   version: a22138067af1c4942683050411a841ade67fe1eb
 - name: github.com/pkg/sftp
@@ -45,6 +68,7 @@ imports:
   version: 7c674d9e72017ed25f6d2b5e497a1368086b6a6f
   subpackages:
   - cobra
+  - cobra/cmd
 - name: github.com/spf13/jwalterweatherman
   version: 33c24e77fb80341fe7130ee7c594256ff08ccc46
 - name: github.com/spf13/pflag

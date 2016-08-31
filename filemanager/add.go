@@ -2,8 +2,10 @@ package filemanager
 
 import (
 	"errors"
+	"fmt"
 	"io"
 	"os"
+	"os/exec"
 	"path/filepath"
 )
 
@@ -28,7 +30,11 @@ func (m *FileManager) Add(path string) error {
 		return err
 	}
 
-	return makeSymlink(path, dst)
+	if err := makeSymlink(path, dst); err != nil {
+		return err
+	}
+
+	return commitFile(m.dirPath, dst, filename)
 }
 
 func safeCopyFile(dst, src string) error {
@@ -68,4 +74,22 @@ func safeCopyFile(dst, src string) error {
 
 func makeSymlink(dst, src string) error {
 	return os.Symlink(src, dst)
+}
+
+func commitFile(repo, dst, filename string) error {
+	cmd := exec.Command("git", "add", dst)
+	cmd.Dir = repo
+	cmd.Stdout = Stdout
+	cmd.Stderr = Stderr
+
+	if err := cmd.Run(); err != nil {
+		return err
+	}
+
+	cmd = exec.Command("git", "commit", "-m", fmt.Sprintf("Add %s (via dotter)", filename))
+	cmd.Dir = repo
+	cmd.Stdout = Stdout
+	cmd.Stderr = Stderr
+
+	return cmd.Run()
 }

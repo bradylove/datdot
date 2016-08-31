@@ -1,14 +1,14 @@
 package filemanager_test
 
 import (
+	"fmt"
+	"io/ioutil"
 	"os"
+	"os/exec"
 	"path/filepath"
+	"time"
 
 	"github.com/bradylove/dotter/filemanager"
-
-	"io/ioutil"
-
-	"time"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -71,6 +71,16 @@ var _ = Describe("Add", func() {
 
 			Expect(stat.Mode()).To(Equal(os.FileMode(0755)))
 		})
+
+		It("makes a git commit", func() {
+			cmd := exec.Command("git", "log")
+			cmd.Dir = filepath.Join(basePath, ".dot")
+
+			output, err := cmd.Output()
+			Expect(err).ToNot(HaveOccurred())
+
+			Expect(string(output)).To(ContainSubstring(fmt.Sprintf("Add %s (via dotter)", testFileName)))
+		})
 	})
 
 	Context("when the destination file already exists", func() {
@@ -86,6 +96,7 @@ var _ = Describe("Add", func() {
 			Expect(manager.Add(testFilePath)).To(MatchError(filemanager.ErrDestinationExists))
 		})
 
-		XIt("overwrites an existing file if force is true", func() {})
+		XIt("overwrites an existing file if force is true")
+		XIt("mentions the overwrite in the git commit message")
 	})
 })

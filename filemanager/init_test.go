@@ -1,9 +1,10 @@
 package filemanager_test
 
 import (
-	"github.com/bradylove/dotter/filemanager"
 	"os"
 	"path/filepath"
+
+	"github.com/bradylove/dotter/filemanager"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
