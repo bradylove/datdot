@@ -42,7 +42,7 @@ var _ = Describe("Add", func() {
 		Expect(os.Chtimes(testFilePath, testFileModTime, testFileModTime))
 
 		manager = filemanager.New(basePath)
-		Expect(manager.Init()).To(Succeed())
+		Expect(manager.Init("git@github.com:bradylove/make-believe.git")).To(Succeed())
 	})
 
 	AfterEach(func() {

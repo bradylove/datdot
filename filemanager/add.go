@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"os/exec"
 	"path/filepath"
 )
 
@@ -77,19 +76,9 @@ func makeSymlink(dst, src string) error {
 }
 
 func commitFile(repo, dst, filename string) error {
-	cmd := exec.Command("git", "add", dst)
-	cmd.Dir = repo
-	cmd.Stdout = Stdout
-	cmd.Stderr = Stderr
-
-	if err := cmd.Run(); err != nil {
+	if err := run(repo, "git", "add", dst); err != nil {
 		return err
 	}
 
-	cmd = exec.Command("git", "commit", "-m", fmt.Sprintf("Add %s (via dotter)", filename))
-	cmd.Dir = repo
-	cmd.Stdout = Stdout
-	cmd.Stderr = Stderr
-
-	return cmd.Run()
+	return run(repo, "git", "commit", "-m", fmt.Sprintf("Add %s (via dotter)", filename))
 }
