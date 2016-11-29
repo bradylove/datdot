@@ -1,5 +1,5 @@
-hash: 4b72789f1c5775934d494cdd074d200fa6c386b442f44b1ed411042de0a26747
-updated: 2016-08-30T22:53:55.146451588-06:00
+hash: cedaa96e973e56c67ddd9471cde7b53df64ae767437d470288ef2aeb9eea7d42
+updated: 2016-10-02T21:55:10.355247196-06:00
 imports:
 - name: github.com/BurntSushi/toml
   version: 99064174e013895bbd9b025c31100bd1d9b590ca
@@ -10,10 +10,10 @@ imports:
   subpackages:
   - hcl/ast
   - hcl/parser
-  - hcl/token
-  - json/parser
   - hcl/scanner
   - hcl/strconv
+  - hcl/token
+  - json/parser
   - json/scanner
   - json/token
 - name: github.com/inconshreveable/mousetrap
@@ -27,32 +27,37 @@ imports:
 - name: github.com/onsi/ginkgo
   version: 43e2af1f01ace55adbb6d7d0f30416476db1baae
   subpackages:
-  - ginkgo
   - config
-  - ginkgo/convert
-  - ginkgo/interrupthandler
-  - ginkgo/nodot
-  - ginkgo/testrunner
-  - ginkgo/testsuite
-  - ginkgo/watch
-  - types
+  - ginkgo
+  - internal/codelocation
+  - internal/containernode
+  - internal/failer
+  - internal/leafnodes
   - internal/remote
-  - reporters/stenographer
+  - internal/spec
+  - internal/specrunner
+  - internal/suite
+  - internal/testingtproxy
+  - internal/writer
   - reporters
+  - reporters/stenographer
+  - types
 - name: github.com/onsi/gomega
   version: c90bd38f8da6e92f8b114953db2f0ad7361fb4b4
   subpackages:
+  - format
   - internal/assertion
   - internal/asyncassertion
+  - internal/oraclematcher
   - internal/testingtsupport
   - matchers
-  - types
-  - internal/oraclematcher
-  - format
   - matchers/support/goraph/bipartitegraph
   - matchers/support/goraph/edge
   - matchers/support/goraph/node
   - matchers/support/goraph/util
+  - types
+- name: github.com/onsi/say
+  version: cbcfecc5cfefddcc5dc18051798e909ae0f88c70
 - name: github.com/pkg/errors
   version: a22138067af1c4942683050411a841ade67fe1eb
 - name: github.com/pkg/sftp
@@ -68,7 +73,6 @@ imports:
   version: 7c674d9e72017ed25f6d2b5e497a1368086b6a6f
   subpackages:
   - cobra
-  - cobra/cmd
 - name: github.com/spf13/jwalterweatherman
   version: 33c24e77fb80341fe7130ee7c594256ff08ccc46
 - name: github.com/spf13/pflag
@@ -78,10 +82,10 @@ imports:
 - name: golang.org/x/crypto
   version: 88d0005bf4c3ec17306ecaca4281a8d8efd73e91
   subpackages:
-  - ssh
   - curve25519
   - ed25519
   - ed25519/internal/edwards25519
+  - ssh
 - name: golang.org/x/sys
   version: a646d33e2ee3172a661fc09bca23bb4889a41bc8
   subpackages:

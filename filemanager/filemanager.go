@@ -13,9 +13,13 @@ var (
 )
 
 type FileManager struct {
-	dirPath string
+	dotDirPath  string
+	homeDirPath string
 }
 
 func New(base string) FileManager {
-	return FileManager{dirPath: filepath.Join(base, ".dot")}
+	return FileManager{
+		dotDirPath:  filepath.Join(base, ".dot"),
+		homeDirPath: base,
+	}
 }

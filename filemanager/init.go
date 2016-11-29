@@ -3,11 +3,19 @@ package filemanager
 import "os"
 
 func (m *FileManager) Init(remote string) error {
-	if err := makeDir(m.dirPath); err != nil {
-		return err
+	if err := cloneRemote(m.dotDirPath, remote); err != nil {
+		if err := makeDir(m.dotDirPath); err != nil {
+			return err
+		}
+
+		return initGitRepo(m.dotDirPath, remote)
 	}
 
-	return initGitRepo(m.dirPath, remote)
+	return nil
+}
+
+func cloneRemote(local, remote string) error {
+	return run("git", "clone", remote, local)
 }
 
 func makeDir(path string) error {

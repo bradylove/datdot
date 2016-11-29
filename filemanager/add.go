@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 var (
@@ -19,13 +20,18 @@ func (m *FileManager) Add(path string) error {
 	}
 
 	filename := filepath.Base(path)
-	dst := filepath.Join(m.dirPath, filename)
+	pathFromHome := strings.TrimPrefix(filepath.Dir(abs), m.homeDirPath)
+	dst := filepath.Join(m.dotDirPath, pathFromHome, filename)
 
-	if err := safeCopyFile(dst, abs); err != nil {
+	if err := createDirIfNeeded(dst, abs); err != nil {
 		return err
 	}
 
-	if err := os.Remove(path); err != nil {
+	if err := copyPath(dst, abs); err != nil {
+		return err
+	}
+
+	if err := os.RemoveAll(path); err != nil {
 		return err
 	}
 
@@ -33,7 +39,34 @@ func (m *FileManager) Add(path string) error {
 		return err
 	}
 
-	return commitFile(m.dirPath, dst, filename)
+	return commitFile(m.dotDirPath, dst, filename)
+}
+
+func createDirIfNeeded(dst, src string) error {
+	srcDir := filepath.Dir(src)
+	dstDir := filepath.Dir(dst)
+
+	srcDirStat, err := os.Stat(srcDir)
+	if err != nil {
+		return err
+	}
+
+	os.MkdirAll(dstDir, srcDirStat.Mode().Perm())
+
+	return nil
+}
+
+func copyPath(dst, src string) error {
+	stat, err := os.Stat(src)
+	if err != nil {
+		return err
+	}
+
+	if stat.IsDir() {
+		return safeCopyDir(dst, src)
+	}
+
+	return safeCopyFile(dst, src)
 }
 
 func safeCopyFile(dst, src string) error {
@@ -69,6 +102,46 @@ func safeCopyFile(dst, src string) error {
 	}
 
 	return closeErr
+}
+
+func safeCopyDir(dst, src string) error {
+	srcInfo, err := os.Stat(src)
+	if err != nil {
+		return err
+	}
+
+	if err := os.MkdirAll(dst, srcInfo.Mode().Perm()); err != nil {
+		return err
+	}
+
+	dir, err := os.Open(src)
+	if err != nil {
+		return err
+	}
+
+	objects, err := dir.Readdir(-1)
+	if err != nil {
+		return err
+	}
+
+	for _, obj := range objects {
+		srcFilePtr := filepath.Join(src, obj.Name())
+		dstFilePtr := filepath.Join(dst, obj.Name())
+
+		if obj.IsDir() {
+			if err := safeCopyDir(dstFilePtr, srcFilePtr); err != nil {
+				return err
+			}
+
+			continue
+		}
+
+		if err := safeCopyFile(dstFilePtr, srcFilePtr); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func makeSymlink(dst, src string) error {

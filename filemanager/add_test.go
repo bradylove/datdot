@@ -27,17 +27,18 @@ var _ = Describe("Add", func() {
 	)
 
 	BeforeEach(func() {
-		basePath = os.TempDir()
+		fakeHome := filepath.Join(os.TempDir(), "fake-home")
 
-		testFileDir = "test-resources"
+		Expect(os.RemoveAll(fakeHome)).To(Succeed())
+		Expect(os.Mkdir(fakeHome, os.ModePerm)).To(Succeed())
+
+		basePath = fakeHome
+		testFileDir = fakeHome
+
 		testFileName = "test-file"
 		testFilePath = filepath.Join(testFileDir, testFileName)
 		testFileModTime = time.Now().Add(-time.Hour)
 
-		Expect(os.RemoveAll(filepath.Join(basePath, ".dot"))).To(Succeed())
-		Expect(os.RemoveAll(testFileDir)).To(Succeed())
-
-		Expect(os.Mkdir(testFileDir, os.ModePerm))
 		Expect(ioutil.WriteFile(testFilePath, []byte("hello-world\n"), 0755)).To(Succeed())
 		Expect(os.Chtimes(testFilePath, testFileModTime, testFileModTime))
 
@@ -80,6 +81,46 @@ var _ = Describe("Add", func() {
 			Expect(err).ToNot(HaveOccurred())
 
 			Expect(string(output)).To(ContainSubstring(fmt.Sprintf("Add %s (via dotter)", testFileName)))
+		})
+	})
+
+	Context("when adding a directory", func() {
+		BeforeEach(func() {
+			nestedDir := filepath.Join(testFileDir, "nested", "dir")
+			Expect(os.MkdirAll(nestedDir, 0755)).To(Succeed())
+
+			nestedFile := filepath.Join(nestedDir, "nested-file.txt")
+			Expect(ioutil.WriteFile(nestedFile, []byte("hello-world\n"), 0666)).To(Succeed())
+
+			Expect(manager.Add(filepath.Join(testFileDir, "nested"))).To(Succeed())
+		})
+
+		It("adds the whole directory", func() {
+			dirStat, err := os.Stat(filepath.Join(basePath, ".dot", "nested", "dir"))
+			Expect(err).ToNot(HaveOccurred())
+
+			Expect(dirStat.Mode().Perm()).To(Equal(os.FileMode(0755)))
+			Expect(dirStat.IsDir()).To(BeTrue())
+
+			_, err = os.Stat(filepath.Join(basePath, ".dot", "nested", "dir", "nested-file.txt"))
+			Expect(err).ToNot(HaveOccurred())
+		})
+	})
+
+	Context("when adding a file nested in directories", func() {
+		BeforeEach(func() {
+			nestedDir := filepath.Join(testFileDir, "nested", "dir")
+			Expect(os.MkdirAll(nestedDir, 0755)).To(Succeed())
+
+			nestedFile := filepath.Join(nestedDir, "nested-file.txt")
+			Expect(ioutil.WriteFile(nestedFile, []byte("hello-world\n"), 0756)).To(Succeed())
+
+			Expect(manager.Add(nestedFile)).To(Succeed())
+		})
+
+		It("creates the nested structure", func() {
+			_, err := os.Stat(filepath.Join(basePath, ".dot", "nested", "dir", "nested-file.txt"))
+			Expect(err).ToNot(HaveOccurred())
 		})
 	})
 

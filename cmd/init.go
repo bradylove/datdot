@@ -1,8 +1,7 @@
 package cmd
 
 import (
-	"fmt"
-
+	"github.com/onsi/say"
 	"github.com/spf13/cobra"
 )
 
@@ -12,10 +11,15 @@ var initCmd = &cobra.Command{
 	Short: "initialize a new dotter config and directory",
 
 	Run: func(cmd *cobra.Command, args []string) {
-		manager := newFileManager()
-		manager.Init()
+		remote := say.Ask("What is the remote repository for your dot files?")
 
-		fmt.Println("Done.")
+		manager := newFileManager()
+		err := manager.Init(remote)
+		if err != nil {
+			say.Red("Init failed: %s", err)
+		}
+
+		say.Green("Done.")
 	},
 }
 
