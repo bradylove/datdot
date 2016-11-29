@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/bradylove/dotter/filemanager"
+	"github.com/bradylove/dotter/testhelpers"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -16,10 +17,9 @@ import (
 
 var _ = Describe("Add", func() {
 	var (
-		manager  filemanager.FileManager
-		basePath string
+		manager filemanager.FileManager
 
-		testFileDir  string
+		basePath     string
 		testFileName string
 		testFilePath string
 
@@ -27,19 +27,17 @@ var _ = Describe("Add", func() {
 	)
 
 	BeforeEach(func() {
-		fakeHome := filepath.Join(os.TempDir(), "fake-home")
+		testhelpers.Clean()
+		testhelpers.Prepare()
 
-		Expect(os.RemoveAll(fakeHome)).To(Succeed())
-		Expect(os.Mkdir(fakeHome, os.ModePerm)).To(Succeed())
-
-		basePath = fakeHome
-		testFileDir = fakeHome
+		basePath = testhelpers.Helper.FakeHome
+		basePath = testhelpers.Helper.FakeHome
 
 		testFileName = "test-file"
-		testFilePath = filepath.Join(testFileDir, testFileName)
+		testFilePath = filepath.Join(basePath, testFileName)
 		testFileModTime = time.Now().Add(-time.Hour)
 
-		Expect(ioutil.WriteFile(testFilePath, []byte("hello-world\n"), 0755)).To(Succeed())
+		testhelpers.Helper.CreateFile(testFileName, "hello-world\n", 0755)
 		Expect(os.Chtimes(testFilePath, testFileModTime, testFileModTime))
 
 		manager = filemanager.New(basePath)
@@ -47,8 +45,7 @@ var _ = Describe("Add", func() {
 	})
 
 	AfterEach(func() {
-		Expect(os.RemoveAll(filepath.Join(basePath, ".dot"))).To(Succeed())
-		Expect(os.RemoveAll(testFileDir)).To(Succeed())
+		testhelpers.Helper.Clean()
 	})
 
 	Context("when the file does not already exist", func() {
@@ -86,13 +83,9 @@ var _ = Describe("Add", func() {
 
 	Context("when adding a directory", func() {
 		BeforeEach(func() {
-			nestedDir := filepath.Join(testFileDir, "nested", "dir")
-			Expect(os.MkdirAll(nestedDir, 0755)).To(Succeed())
+			testhelpers.Helper.CreateFile("nested/dir/nested-file.txt", "hello-world\n", 0666)
 
-			nestedFile := filepath.Join(nestedDir, "nested-file.txt")
-			Expect(ioutil.WriteFile(nestedFile, []byte("hello-world\n"), 0666)).To(Succeed())
-
-			Expect(manager.Add(filepath.Join(testFileDir, "nested"))).To(Succeed())
+			Expect(manager.Add(filepath.Join(basePath, "nested"))).To(Succeed())
 		})
 
 		It("adds the whole directory", func() {
@@ -109,11 +102,8 @@ var _ = Describe("Add", func() {
 
 	Context("when adding a file nested in directories", func() {
 		BeforeEach(func() {
-			nestedDir := filepath.Join(testFileDir, "nested", "dir")
-			Expect(os.MkdirAll(nestedDir, 0755)).To(Succeed())
-
-			nestedFile := filepath.Join(nestedDir, "nested-file.txt")
-			Expect(ioutil.WriteFile(nestedFile, []byte("hello-world\n"), 0756)).To(Succeed())
+			nestedFile := filepath.Join(basePath, "nested", "dir", "nested-file.txt")
+			testhelpers.Helper.CreateFile("nested/dir/nested-file.txt", "hello-world\n", 0666)
 
 			Expect(manager.Add(nestedFile)).To(Succeed())
 		})
@@ -126,7 +116,7 @@ var _ = Describe("Add", func() {
 
 	Context("when the destination file already exists", func() {
 		BeforeEach(func() {
-			testFilePath = filepath.Join(testFileDir, "existing")
+			testFilePath = filepath.Join(basePath, "existing")
 			destinationPath := filepath.Join(basePath, ".dot", "existing")
 
 			Expect(ioutil.WriteFile(testFilePath, []byte("hello-world\n"), 0755)).To(Succeed())
