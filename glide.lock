@@ -1,12 +1,10 @@
-hash: cedaa96e973e56c67ddd9471cde7b53df64ae767437d470288ef2aeb9eea7d42
-updated: 2016-10-02T21:55:10.355247196-06:00
+hash: 6df3690f70ac710fa8ceae9e08374531300e92e2965d15b839e632f3f8923807
+updated: 2017-01-30T21:03:57.895122451-07:00
 imports:
-- name: github.com/BurntSushi/toml
-  version: 99064174e013895bbd9b025c31100bd1d9b590ca
 - name: github.com/fsnotify/fsnotify
-  version: f12c6236fe7b5cf6bcf30e5935d08cb079d78334
+  version: a904159b9206978bb6d53fcc7a769e5cd726c737
 - name: github.com/hashicorp/hcl
-  version: d8c773c4cba11b11539e3d45f93daeaa5dcf1fa1
+  version: 88e9565e9965f4054f86c72ff1ad1bb50e560d6f
   subpackages:
   - hcl/ast
   - hcl/parser
@@ -18,14 +16,12 @@ imports:
   - json/token
 - name: github.com/inconshreveable/mousetrap
   version: 76626ae9c91c4f2a10f34cad8ce83ea42c93bb75
-- name: github.com/kr/fs
-  version: 2788f0dbd16903de03cb8186e5c7d97b69ad387b
 - name: github.com/magiconair/properties
-  version: 61b492c03cf472e0c6419be5899b8e0dc28b1b88
+  version: b3b15ef068fd0b17ddf408a23669f20811d194d2
 - name: github.com/mitchellh/mapstructure
-  version: ca63d7c062ee3c9f34db231e352b60012b4fd0c1
+  version: db1efb556f84b25a0a13a04aad883943538ad2e0
 - name: github.com/onsi/ginkgo
-  version: 43e2af1f01ace55adbb6d7d0f30416476db1baae
+  version: a23f924ce96d61f963fb6219b8ff069d8d768cc2
   subpackages:
   - config
   - ginkgo
@@ -41,9 +37,11 @@ imports:
   - internal/writer
   - reporters
   - reporters/stenographer
+  - reporters/stenographer/support/go-colorable
+  - reporters/stenographer/support/go-isatty
   - types
 - name: github.com/onsi/gomega
-  version: c90bd38f8da6e92f8b114953db2f0ad7361fb4b4
+  version: f1f0f388b31eca4e2cbe7a6dd8a3a1dfddda5b1c
   subpackages:
   - format
   - internal/assertion
@@ -58,43 +56,35 @@ imports:
   - types
 - name: github.com/onsi/say
   version: cbcfecc5cfefddcc5dc18051798e909ae0f88c70
-- name: github.com/pkg/errors
-  version: a22138067af1c4942683050411a841ade67fe1eb
-- name: github.com/pkg/sftp
-  version: a71e8f580e3b622ebff585309160b1cc549ef4d2
+- name: github.com/pelletier/go-buffruneio
+  version: df1e16fde7fc330a0ca68167c23bf7ed6ac31d6d
+- name: github.com/pelletier/go-toml
+  version: a1f048ba24490f9b0674a67e1ce995d685cddf4a
 - name: github.com/spf13/afero
-  version: b28a7effac979219c2a2ed6205a4d70e4b1bcd02
+  version: 72b31426848c6ef12a7a8e216708cb0d1530f074
   subpackages:
   - mem
-  - sftp
 - name: github.com/spf13/cast
-  version: e31f36ffc91a2ba9ddb72a4b6a607ff9b3d3cb63
+  version: d1139bab1c07d5ad390a65e7305876b3c1a8370b
 - name: github.com/spf13/cobra
-  version: 7c674d9e72017ed25f6d2b5e497a1368086b6a6f
+  version: 35136c09d8da66b901337c6e86fd8e88a1a255bd
   subpackages:
   - cobra
 - name: github.com/spf13/jwalterweatherman
-  version: 33c24e77fb80341fe7130ee7c594256ff08ccc46
+  version: fa7ca7e836cf3a8bb4ebf799f472c12d7e903d66
 - name: github.com/spf13/pflag
-  version: 6454a84b6da0ea8b628d5d8a26759f62c6c161b4
+  version: 9ff6c6923cfffbcd502984b8e0c80539a94968b7
 - name: github.com/spf13/viper
-  version: 654fc7bb54d0c138ef80405ff577391f79c0c32d
-- name: golang.org/x/crypto
-  version: 88d0005bf4c3ec17306ecaca4281a8d8efd73e91
-  subpackages:
-  - curve25519
-  - ed25519
-  - ed25519/internal/edwards25519
-  - ssh
+  version: 5ed0fc31f7f453625df314d8e66b9791e8d13003
 - name: golang.org/x/sys
-  version: a646d33e2ee3172a661fc09bca23bb4889a41bc8
+  version: d75a52659825e75fff6158388dddc6a5b04f9ba5
   subpackages:
   - unix
 - name: golang.org/x/text
-  version: d69c40b4be55797923cec7457fac7a244d91a9b6
+  version: ece019dcfd29abcf65d0d1dfe145e8faad097640
   subpackages:
   - transform
   - unicode/norm
 - name: gopkg.in/yaml.v2
-  version: e4d366fc3c7938e2958e662b4258c7a89e1f0e3e
+  version: a5b47d31c556af34a302ce5d659e6fea44d90de0
 testImports: []

@@ -2,6 +2,7 @@ package filemanager_test
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -17,6 +18,8 @@ var _ = Describe("Init", func() {
 		manager  filemanager.FileManager
 		basePath string
 		dotDir   string
+
+		testRepo = "git@github.com:bradylove/dotter-test.git"
 	)
 
 	BeforeEach(func() {
@@ -25,7 +28,7 @@ var _ = Describe("Init", func() {
 		os.RemoveAll(dotDir)
 		manager = filemanager.New(basePath)
 
-		err := manager.Init("git@github.com:bradylove/make-believe")
+		err := manager.Init(testRepo)
 		Expect(err).ToNot(HaveOccurred())
 	})
 
@@ -34,7 +37,6 @@ var _ = Describe("Init", func() {
 	})
 
 	It("creates the dotter directory", func() {
-		fmt.Println(dotDir)
 		file, err := os.Open(dotDir)
 		Expect(err).ToNot(HaveOccurred())
 
@@ -42,6 +44,15 @@ var _ = Describe("Init", func() {
 		Expect(err).ToNot(HaveOccurred())
 
 		Expect(stat.IsDir()).To(BeTrue())
+	})
+
+	It("writes the initial config file", func() {
+		data, err := ioutil.ReadFile(filepath.Join(dotDir, "dotter.json"))
+		Expect(err).ToNot(HaveOccurred())
+
+		Expect(string(data)).To(MatchJSON(fmt.Sprintf(`{
+			"remote": "%s"
+		}`, testRepo)))
 	})
 
 	It("initializes a git repo", func() {

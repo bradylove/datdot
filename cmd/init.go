@@ -1,14 +1,8 @@
 package cmd
 
 import (
-	"encoding/json"
-	"io/ioutil"
-	"os"
-
-	"github.com/bradylove/dotter/config"
 	"github.com/onsi/say"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 // initCmd represents the init command
@@ -24,17 +18,6 @@ var initCmd = &cobra.Command{
 		if err != nil {
 			say.Red("Init failed: %s", err)
 		}
-
-		var cfg config.Config
-		viper.Unmarshal(&cfg)
-
-		cfg.Remote = remote
-
-		json, err := json.Marshal(&cfg)
-		if err != nil {
-			panic(err)
-		}
-		ioutil.WriteFile(os.Getenv("HOME")+"/.dot/dotter", json, os.ModePerm)
 
 		say.Green("Done.")
 	},

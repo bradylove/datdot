@@ -8,3 +8,4 @@ import:
   - ginkgo
 - package: github.com/onsi/gomega
 - package: github.com/onsi/say
+- package: github.com/spf13/viper
