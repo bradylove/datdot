@@ -1,9 +1,14 @@
 package filemanager
 
-import "os"
+import (
+	"os"
+	"fmt"
+)
 
 func (m *FileManager) Init(remote string) error {
 	if err := cloneRemote(m.dotDirPath, remote); err != nil {
+		fmt.Println(err)
+
 		if err := makeDir(m.dotDirPath); err != nil {
 			return err
 		}
@@ -15,7 +20,7 @@ func (m *FileManager) Init(remote string) error {
 }
 
 func cloneRemote(local, remote string) error {
-	return run("git", "clone", remote, local)
+	return run(os.Getenv("HOME"), "git", "clone", remote, local)
 }
 
 func makeDir(path string) error {
