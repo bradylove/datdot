@@ -39,6 +39,10 @@ func (m *FileManager) Add(path string) error {
 		return err
 	}
 
+	if err := m.addConfigDotfile(filename, path); err != nil {
+		return err
+	}
+
 	return commitFile(m.dotDirPath, dst, filename)
 }
 

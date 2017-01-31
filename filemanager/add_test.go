@@ -17,20 +17,21 @@ import (
 
 var _ = Describe("Add", func() {
 	var (
-		manager filemanager.FileManager
+		manager *filemanager.FileManager
 
 		basePath     string
 		testFileName string
 		testFilePath string
 
 		testFileModTime time.Time
+
+		testRepo = "git@github.com:bradylove/dotter-test.git"
 	)
 
 	BeforeEach(func() {
 		testhelpers.Clean()
 		testhelpers.Prepare()
 
-		basePath = testhelpers.Helper.FakeHome
 		basePath = testhelpers.Helper.FakeHome
 
 		testFileName = "test-file"
@@ -41,8 +42,9 @@ var _ = Describe("Add", func() {
 		Expect(os.Chtimes(testFilePath, testFileModTime, testFileModTime))
 
 		manager = filemanager.New(basePath)
-		err := manager.Init("git@github.com:bradylove/dotter-test.git")
-		Expect(err).ToNot(HaveOccurred())
+		Expect(manager.Init(testRepo)).To(Succeed())
+
+		testhelpers.InitViper(basePath)
 	})
 
 	AfterEach(func() {
@@ -80,6 +82,18 @@ var _ = Describe("Add", func() {
 
 			Expect(string(output)).To(ContainSubstring(fmt.Sprintf("Add %s (via dotter)", testFileName)))
 		})
+
+		It("adds the dotfile to the config", func() {
+			data, err := ioutil.ReadFile(filepath.Join(basePath, ".dot", "dotter.json"))
+			Expect(err).ToNot(HaveOccurred())
+
+			Expect(string(data)).To(MatchJSON(fmt.Sprintf(`{
+				"remote": "%s",
+				"dotfiles": {
+					"%s": "$HOME/%s"
+				}
+			}`, testRepo, testFileName, testFileName)))
+		})
 	})
 
 	Context("when adding a directory", func() {
@@ -99,6 +113,18 @@ var _ = Describe("Add", func() {
 			_, err = os.Stat(filepath.Join(basePath, ".dot", "nested", "dir", "nested-file.txt"))
 			Expect(err).ToNot(HaveOccurred())
 		})
+
+		It("adds the directory to the config", func() {
+			data, err := ioutil.ReadFile(filepath.Join(basePath, ".dot", "dotter.json"))
+			Expect(err).ToNot(HaveOccurred())
+
+			Expect(string(data)).To(MatchJSON(fmt.Sprintf(`{
+				"remote": "%s",
+				"dotfiles": {
+					"nested": "$HOME/nested"
+				}
+			}`, testRepo)))
+		})
 	})
 
 	Context("when adding a file nested in directories", func() {
@@ -112,6 +138,18 @@ var _ = Describe("Add", func() {
 		It("creates the nested structure", func() {
 			_, err := os.Stat(filepath.Join(basePath, ".dot", "nested", "dir", "nested-file.txt"))
 			Expect(err).ToNot(HaveOccurred())
+		})
+
+		It("adds the dotfile to the config", func() {
+			data, err := ioutil.ReadFile(filepath.Join(basePath, ".dot", "dotter.json"))
+			Expect(err).ToNot(HaveOccurred())
+
+			Expect(string(data)).To(MatchJSON(fmt.Sprintf(`{
+				"remote": "%s",
+				"dotfiles": {
+					"nested/dir/nested-file.txt": "$HOME/nested/dir/nested-file.txt"
+				}
+			}`, testRepo)))
 		})
 	})
 

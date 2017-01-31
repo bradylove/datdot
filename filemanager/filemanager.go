@@ -17,8 +17,8 @@ type FileManager struct {
 	homeDirPath string
 }
 
-func New(base string) FileManager {
-	return FileManager{
+func New(base string) *FileManager {
+	return &FileManager{
 		dotDirPath:  filepath.Join(base, ".dot"),
 		homeDirPath: base,
 	}

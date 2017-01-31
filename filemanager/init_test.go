@@ -15,7 +15,6 @@ import (
 
 var _ = Describe("Init", func() {
 	var (
-		manager  filemanager.FileManager
 		basePath string
 		dotDir   string
 
@@ -26,9 +25,8 @@ var _ = Describe("Init", func() {
 		basePath = os.TempDir()
 		dotDir = filepath.Join(basePath, ".dot")
 		os.RemoveAll(dotDir)
-		manager = filemanager.New(basePath)
 
-		err := manager.Init(testRepo)
+		err := filemanager.New(basePath).Init(testRepo)
 		Expect(err).ToNot(HaveOccurred())
 	})
 

@@ -1,14 +1,8 @@
 package filemanager
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"os"
-	"path/filepath"
-
-	"github.com/bradylove/dotter/config"
-	"github.com/spf13/viper"
 )
 
 func (m *FileManager) Init(remote string) error {
@@ -22,7 +16,7 @@ func (m *FileManager) Init(remote string) error {
 		return initGitRepo(m.dotDirPath, remote)
 	}
 
-	return writeConfig(m.dotDirPath, remote)
+	return m.setConfigRemote(remote)
 }
 
 func cloneRemote(local, remote string) error {
@@ -39,22 +33,4 @@ func initGitRepo(local, remote string) error {
 	}
 
 	return run(local, "git", "remote", "add", "origin", remote)
-}
-
-func writeConfig(local, remote string) error {
-	var cfg config.Config
-	if err := viper.Unmarshal(&cfg); err != nil {
-		return err
-	}
-
-	cfg.Remote = remote
-
-	json, err := json.Marshal(&cfg)
-	if err != nil {
-		return err
-	}
-
-	configPath := filepath.Join(local, "dotter.json")
-
-	return ioutil.WriteFile(configPath, json, os.ModePerm)
 }

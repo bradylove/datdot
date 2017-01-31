@@ -1,11 +1,13 @@
 package testhelpers
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 
 	. "github.com/onsi/gomega"
+	"github.com/spf13/viper"
 )
 
 type TestHelper struct {
@@ -42,4 +44,14 @@ func Clean() {
 
 func Prepare() {
 	Helper.Prepare()
+}
+
+func InitViper(path string) {
+	viper.SetConfigName("dotter")
+	viper.AddConfigPath(filepath.Join(path, ".dot"))
+
+	// If a config file is found, read it in.
+	if err := viper.ReadInConfig(); err == nil {
+		fmt.Println("Using config file:", viper.ConfigFileUsed())
+	}
 }
