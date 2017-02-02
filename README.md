@@ -12,6 +12,9 @@ Some key features of datdot will be (but are not there yet)
 
 ## Running tests
 
+In order to run tests as they are today, you must have access to
+`git@github.com:bradylove/datdot-test.git`.
+
 ```
 $ ./scripts/test.sh
 ```
