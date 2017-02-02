@@ -1,5 +1,15 @@
 # datdot
 
+datdot is a dotfile manager that is still under slow construction.
+
+Some key features of datdot will be (but are not there yet)
+
+- [ ] Cross platform
+- [ ] Supports files that are not in the home directory
+- [ ] Based on Git
+- [ ] Easy to migrate to
+- [ ] Easy to use
+
 ## Running tests
 
 ```
