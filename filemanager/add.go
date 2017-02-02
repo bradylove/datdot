@@ -39,7 +39,8 @@ func (m *FileManager) Add(path string) error {
 		return err
 	}
 
-	if err := m.addConfigDotfile(filename, path); err != nil {
+	cfgSrc := strings.Replace(dst, m.dotDirPath+"/", "", 1)
+	if err := m.addConfigDotfile(cfgSrc, path); err != nil {
 		return err
 	}
 
