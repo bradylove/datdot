@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -25,7 +26,15 @@ func initConfig() {
 	viper.AddConfigPath("$HOME/.dot") // adding home directory as first search path
 
 	// If a config file is found, read it in.
-	if err := viper.ReadInConfig(); err == nil {
-		fmt.Println("Using config file:", viper.ConfigFileUsed())
+	if err := viper.ReadInConfig(); err != nil {
+		var hasHelp bool
+		if len(os.Args) > 1 && os.Args[1] == "help" {
+			hasHelp = true
+		}
+
+		if !hasHelp && os.Args[1] != "init" {
+			fmt.Println("datdot is not initialized")
+			os.Exit(1)
+		}
 	}
 }

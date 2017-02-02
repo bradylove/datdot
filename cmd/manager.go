@@ -6,6 +6,6 @@ import (
 	"github.com/bradylove/datdot/filemanager"
 )
 
-func newFileManager() filemanager.FileManager {
+func newFileManager() *filemanager.FileManager {
 	return filemanager.New(os.Getenv("HOME"))
 }
