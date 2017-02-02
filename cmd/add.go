@@ -12,7 +12,7 @@ var addCmd = &cobra.Command{
 	Use:   "add <filepaths>",
 	Short: "add a file to your dotfiles",
 
-	Long: `add will move a file to your dotter directory, create a symlink in its
+	Long: `add will move a file to your datdot directory, create a symlink in its
 original location, and commit that file to the local git repository. Use sync to
 push changes to your dot files to the remote repository`,
 
@@ -22,7 +22,7 @@ push changes to your dot files to the remote repository`,
 			os.Exit(1)
 		}
 
-		// TODO: Ensure dotter has been initialized
+		// TODO: Ensure datdot has been initialized
 
 		manager := newFileManager()
 

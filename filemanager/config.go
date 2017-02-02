@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/bradylove/dotter/config"
+	"github.com/bradylove/datdot/config"
 	"github.com/spf13/viper"
 )
 
@@ -52,7 +52,7 @@ func (m *FileManager) writeConfig(cfg *config.Config) error {
 		return err
 	}
 
-	configPath := filepath.Join(m.dotDirPath, "dotter.json")
+	configPath := filepath.Join(m.dotDirPath, "datdot.json")
 
 	return ioutil.WriteFile(configPath, json, os.ModePerm)
 }

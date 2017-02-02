@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/bradylove/dotter/cmd"
+	"github.com/bradylove/datdot/cmd"
 	"os"
 )
 

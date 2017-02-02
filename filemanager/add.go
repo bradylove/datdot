@@ -157,5 +157,5 @@ func commitFile(repo, dst, filename string) error {
 		return err
 	}
 
-	return run(repo, "git", "commit", "-m", fmt.Sprintf("Add %s (via dotter)", filename))
+	return run(repo, "git", "commit", "-m", fmt.Sprintf("Add %s (via datdot)", filename))
 }

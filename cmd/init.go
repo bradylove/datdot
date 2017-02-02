@@ -8,7 +8,7 @@ import (
 // initCmd represents the init command
 var initCmd = &cobra.Command{
 	Use:   "init",
-	Short: "initialize a new dotter config and directory",
+	Short: "initialize a new datdot config and directory",
 
 	Run: func(cmd *cobra.Command, args []string) {
 		remote := say.Ask("What is the remote repository for your dot files?")

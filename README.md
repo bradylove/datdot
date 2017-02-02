@@ -1,4 +1,4 @@
-# Dotter
+# datdot
 
 ## Running tests
 

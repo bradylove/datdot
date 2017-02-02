@@ -47,7 +47,7 @@ func Prepare() {
 }
 
 func InitViper(path string) {
-	viper.SetConfigName("dotter")
+	viper.SetConfigName("datdot")
 	viper.AddConfigPath(filepath.Join(path, ".dot"))
 
 	// If a config file is found, read it in.

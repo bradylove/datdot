@@ -8,7 +8,7 @@ import (
 
 	"os"
 
-	"github.com/bradylove/dotter/filemanager"
+	"github.com/bradylove/datdot/filemanager"
 )
 
 func TestFilemanager(t *testing.T) {

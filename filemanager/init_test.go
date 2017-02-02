@@ -7,7 +7,7 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	"github.com/bradylove/dotter/filemanager"
+	"github.com/bradylove/datdot/filemanager"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -18,7 +18,7 @@ var _ = Describe("Init", func() {
 		basePath string
 		dotDir   string
 
-		testRepo = "git@github.com:bradylove/dotter-test.git"
+		testRepo = "git@github.com:bradylove/datdot-test.git"
 	)
 
 	BeforeEach(func() {
@@ -34,7 +34,7 @@ var _ = Describe("Init", func() {
 		os.RemoveAll(dotDir)
 	})
 
-	It("creates the dotter directory", func() {
+	It("creates the datdot directory", func() {
 		file, err := os.Open(dotDir)
 		Expect(err).ToNot(HaveOccurred())
 
@@ -45,7 +45,7 @@ var _ = Describe("Init", func() {
 	})
 
 	It("writes the initial config file", func() {
-		data, err := ioutil.ReadFile(filepath.Join(dotDir, "dotter.json"))
+		data, err := ioutil.ReadFile(filepath.Join(dotDir, "datdot.json"))
 		Expect(err).ToNot(HaveOccurred())
 
 		Expect(string(data)).To(MatchJSON(fmt.Sprintf(`{

@@ -10,9 +10,9 @@ import (
 var cfgFile string
 
 var RootCmd = &cobra.Command{
-	Use:   "dotter",
-	Short: "dotter is a simple dotfile manager",
-	Long: `dotter is a simple dotfile manager that uses a git repo for syncing
+	Use:   "datdot",
+	Short: "datdot is a simple dotfile manager",
+	Long: `datdot is a simple dotfile manager that uses a git repo for syncing
 your dotfiles.`,
 }
 
@@ -21,7 +21,7 @@ func init() {
 }
 
 func initConfig() {
-	viper.SetConfigName("dotter")     // name of config file (without extension)
+	viper.SetConfigName("datdot")     // name of config file (without extension)
 	viper.AddConfigPath("$HOME/.dot") // adding home directory as first search path
 
 	// If a config file is found, read it in.

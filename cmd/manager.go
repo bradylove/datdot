@@ -3,7 +3,7 @@ package cmd
 import (
 	"os"
 
-	"github.com/bradylove/dotter/filemanager"
+	"github.com/bradylove/datdot/filemanager"
 )
 
 func newFileManager() filemanager.FileManager {

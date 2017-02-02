@@ -1,4 +1,4 @@
-package: github.com/bradylove/dotter
+package: github.com/bradylove/datdot
 import:
 - package: github.com/spf13/cobra
   subpackages:

@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/bradylove/dotter/filemanager"
-	"github.com/bradylove/dotter/testhelpers"
+	"github.com/bradylove/datdot/filemanager"
+	"github.com/bradylove/datdot/testhelpers"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -25,7 +25,7 @@ var _ = Describe("Add", func() {
 
 		testFileModTime time.Time
 
-		testRepo = "git@github.com:bradylove/dotter-test.git"
+		testRepo = "git@github.com:bradylove/datdot-test.git"
 	)
 
 	BeforeEach(func() {
@@ -56,7 +56,7 @@ var _ = Describe("Add", func() {
 			Expect(manager.Add(testFilePath)).To(Succeed())
 		})
 
-		It("moves the file to the dotter directory", func() {
+		It("moves the file to the datdot directory", func() {
 			_, err := os.Stat(filepath.Join(basePath, ".dot", testFileName))
 			Expect(err).ToNot(HaveOccurred())
 		})
@@ -80,11 +80,11 @@ var _ = Describe("Add", func() {
 			output, err := cmd.Output()
 			Expect(err).ToNot(HaveOccurred())
 
-			Expect(string(output)).To(ContainSubstring(fmt.Sprintf("Add %s (via dotter)", testFileName)))
+			Expect(string(output)).To(ContainSubstring(fmt.Sprintf("Add %s (via datdot)", testFileName)))
 		})
 
 		It("adds the dotfile to the config", func() {
-			data, err := ioutil.ReadFile(filepath.Join(basePath, ".dot", "dotter.json"))
+			data, err := ioutil.ReadFile(filepath.Join(basePath, ".dot", "datdot.json"))
 			Expect(err).ToNot(HaveOccurred())
 
 			Expect(string(data)).To(MatchJSON(fmt.Sprintf(`{
@@ -115,7 +115,7 @@ var _ = Describe("Add", func() {
 		})
 
 		It("adds the directory to the config", func() {
-			data, err := ioutil.ReadFile(filepath.Join(basePath, ".dot", "dotter.json"))
+			data, err := ioutil.ReadFile(filepath.Join(basePath, ".dot", "datdot.json"))
 			Expect(err).ToNot(HaveOccurred())
 
 			Expect(string(data)).To(MatchJSON(fmt.Sprintf(`{
@@ -141,7 +141,7 @@ var _ = Describe("Add", func() {
 		})
 
 		It("adds the dotfile to the config", func() {
-			data, err := ioutil.ReadFile(filepath.Join(basePath, ".dot", "dotter.json"))
+			data, err := ioutil.ReadFile(filepath.Join(basePath, ".dot", "datdot.json"))
 			Expect(err).ToNot(HaveOccurred())
 
 			Expect(string(data)).To(MatchJSON(fmt.Sprintf(`{
