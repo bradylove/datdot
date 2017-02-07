@@ -4,11 +4,13 @@ datdot is a dotfile manager that is still under slow construction.
 
 Some key features of datdot will be (but are not there yet)
 
-- [ ] Cross platform
-- [ ] Supports files that are not in the home directory
-- [ ] Based on Git
+- [X] Cross platform (MacOS and Linux)
+- [X] Based on Git
 - [ ] Easy to migrate to
-- [ ] Easy to use
+- [ ] Supports directories
+- [ ] Supports files and directories that are not in the $HOME path
+- [ ] Selective linking
+- [ ] Multiple dotfile sources
 
 ## Running tests
 
