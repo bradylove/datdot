@@ -1,7 +1,6 @@
 package testhelpers
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -51,7 +50,7 @@ func InitViper(path string) {
 	viper.AddConfigPath(filepath.Join(path, ".dot"))
 
 	// If a config file is found, read it in.
-	if err := viper.ReadInConfig(); err == nil {
-		fmt.Println("Using config file:", viper.ConfigFileUsed())
+	if err := viper.ReadInConfig(); err != nil {
+		panic(err)
 	}
 }

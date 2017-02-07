@@ -64,14 +64,13 @@ var _ = Describe("Init", func() {
 	})
 
 	It("adds a remote origin to the git repo", func() {
-		cmd := exec.Command("git", "remote", "show")
+		cmd := exec.Command("git", "remote", "-v")
 		cmd.Dir = dotDir
 
 		out, err := cmd.Output()
 		Expect(err).ToNot(HaveOccurred())
 
-		fmt.Println(string(out))
-
 		Expect(string(out)).To(ContainSubstring("origin"))
+		Expect(string(out)).To(ContainSubstring(testRepo))
 	})
 })
